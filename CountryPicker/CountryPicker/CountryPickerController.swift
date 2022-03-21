@@ -94,6 +94,9 @@ open class CountryPickerController: UIViewController {
         public var separatorLineColor: UIColor = UIColor(red: 249/255.0, green: 248/255.0, blue: 252/255.0, alpha: 1.0)
         public var isCountryFlagHidden: Bool = false
         public var isCountryDialHidden: Bool = false
+        public var closeIconColor: UIColor = UIColor.black
+        public var searchBackgroundColor: UIColor = UIColor.white.withAlphaComponent(0.9)
+        public var serchTintColor = UIColor.black
     }
     
     public var configuration = Configuration() {
@@ -124,6 +127,10 @@ open class CountryPickerController: UIViewController {
     private func setUpsSearchController() {
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.searchBar.tintColor = configuration.serchTintColor
+        if #available(iOS 13.0, *) {
+            searchController.searchBar.searchTextField.backgroundColor = configuration.searchBackgroundColor
+        } else {}
     }
     
     override open func viewDidLoad() {
@@ -138,7 +145,7 @@ open class CountryPickerController: UIViewController {
         let uiBarButtonItem = UIBarButtonItem(barButtonSystemItem: .stop,
                                               target: self,
                                               action: #selector(self.crossButtonClicked(_:)))
-        
+        uiBarButtonItem.tintColor = configuration.closeIconColor
         navigationItem.leftBarButtonItem = uiBarButtonItem
         
         // Setup table view and cells
@@ -167,7 +174,7 @@ open class CountryPickerController: UIViewController {
     }
     
     private func setUpTableView() {
-        
+        tableView.tintColor = configuration.serchTintColor
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
